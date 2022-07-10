@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GridMake a;
-    void Start()
+    public GridMake g;
+    public aStar a;
+    public GameObject grid;
+
+    void Awake()
     {
-        a.CreateGrid();
+        //스타트노드, 엔드노드 지정하는 코드 필요
+
+
+        g.getGridFromTile();
+        a.gridArray = g.gridArray;
+        a.FindPath(start,end);
+        a.RetracePath(start, end);
     }
 
     // Update is called once per frame

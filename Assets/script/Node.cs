@@ -15,10 +15,9 @@ public class Node
 
     public Node parent;
 
-    public int fCost;
     public int gCost;
     public int hCost;
-    
+    public int fCost { get { return gCost + hCost; } }
 
     public Node(GameObject _ground, bool _walkable, int _gridX, int _gridY)
     {
@@ -27,6 +26,11 @@ public class Node
         gridX = _gridX;
         gridY = _gridY;
     }
-
+    public Node(bool _walkable, int _gridX, int _gridY)
+    {
+        walkable = _walkable;
+        gridX = _gridX;
+        gridY = _gridY;
+    }
 
 }

@@ -194,7 +194,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.13999999, y: 0.13999999, z: 0}
+  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -2242,8 +2242,8 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -13, y: -5, z: 0}
-  m_Size: {x: 23, y: 10, z: 1}
+  m_Origin: {x: -10, y: -5, z: 0}
+  m_Size: {x: 20, y: 10, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -2288,7 +2288,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 311036312}
-  - component: {fileID: 311036311}
   m_Layer: 0
   m_Name: GridMaker
   m_TagString: Untagged
@@ -2296,21 +2295,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &311036311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 311036310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a46f6adf1e4e454fa680723cc1ee58f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundPrefab: {fileID: 7910262302304269378, guid: e0a9f68def9ff8d4b8f0e1e76ba51476,
-    type: 3}
-  gridWorldSize: {x: 15, y: 8}
 --- !u!4 &311036312
 Transform:
   m_ObjectHideFlags: 0
@@ -2462,6 +2446,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1555690839}
   - component: {fileID: 1555690840}
+  - component: {fileID: 1555690841}
+  - component: {fileID: 1555690842}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2495,4 +2481,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90e1bb9fd56a1d488136cc6cc45db28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: {fileID: 311036311}
+  g: {fileID: 1555690841}
+  a: {fileID: 1555690842}
+  grid: {fileID: 211439877}
+--- !u!114 &1555690841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555690838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a46f6adf1e4e454fa680723cc1ee58f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundPrefab: {fileID: 7910262302304269378, guid: e0a9f68def9ff8d4b8f0e1e76ba51476,
+    type: 3}
+  gridWorldSize: {x: 20, y: 10}
+  tilemap: {fileID: 211439880}
+--- !u!114 &1555690842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555690838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6668049952babe242b9defe284a749c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

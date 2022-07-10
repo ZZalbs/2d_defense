@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Astar : MonoBehaviour
+public class aStar : MonoBehaviour
 {
-    GridMake grid;
+    GridMake gridCode;
     public Node start, end; //start, end 구현예정
-    
+    public Node[,] gridArray;
 
     private void Start()
     {
-        grid = GetComponent<GridMake>();
+        gridCode = GetComponent<GridMake>();
     }
 
-    void FindPath(Node startNode,Node finalNode)
+    public void FindPath(Node startNode,Node finalNode)
     {
         List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        List<Node> closedSet = new List<Node>();
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
@@ -47,7 +47,7 @@ public class Astar : MonoBehaviour
                // currentNode.ChangeColor = Color.Lerp(Color.cyan, Color.white, 0.2f);
 
             //이웃 노드를 검색
-            foreach (Node neighbour in grid.GetNeighbours(currentNode))  // neighbor : 현 노드의 이웃
+            foreach (Node neighbour in gridCode.GetNeighbours(currentNode))  // neighbor : 현 노드의 이웃
             {
                 //이동불가 노드 이거나 이미 검색한 노드 제외
                 if (!neighbour.walkable || closedSet.Contains(neighbour))
@@ -74,7 +74,7 @@ public class Astar : MonoBehaviour
     }
 
     //웨이포인트 생성(엔드 포인트부터 처음으로 다시 돌아오는 방식으로)
-    List<Node> RetracePath(Node startNode,Node endNode)
+    public List<Node> RetracePath(Node startNode,Node endNode)
     {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -82,7 +82,9 @@ public class Astar : MonoBehaviour
         {
             path.Add(currentNode);
             currentNode = currentNode.parent;
+            Debug.Log(currentNode);
         }
+        
         path.Add(startNode);
         path.Reverse();
         return path;
