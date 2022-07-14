@@ -2446,8 +2446,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1555690839}
   - component: {fileID: 1555690840}
-  - component: {fileID: 1555690841}
   - component: {fileID: 1555690842}
+  - component: {fileID: 1555690841}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2481,9 +2481,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90e1bb9fd56a1d488136cc6cc45db28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  g: {fileID: 1555690841}
   a: {fileID: 1555690842}
   grid: {fileID: 211439877}
+  gridWorldSize: {x: 20, y: 10}
 --- !u!114 &1555690841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2496,10 +2496,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a46f6adf1e4e454fa680723cc1ee58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridWorldSize: {x: 0, y: 0}
+  tilemap: {fileID: 211439880}
   groundPrefab: {fileID: 7910262302304269378, guid: e0a9f68def9ff8d4b8f0e1e76ba51476,
     type: 3}
-  gridWorldSize: {x: 20, y: 10}
-  tilemap: {fileID: 211439880}
 --- !u!114 &1555690842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2512,3 +2512,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6668049952babe242b9defe284a749c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridCode: {fileID: 0}
