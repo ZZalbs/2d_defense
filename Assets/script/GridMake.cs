@@ -7,9 +7,10 @@ public class GridMake : MonoBehaviour
 {
     public Vector2 gridWorldSize; // 전체 크기 
     public Tilemap tilemap;
-    
-    Vector3 bottomLeft;
-    Vector3 topRight;
+
+    Vector3 tilePos = new Vector3(0, 1.125f, 0);
+    public Vector3 bottomLeft;
+    public Vector3 topRight;
 
     public Node[,] gridArray; //  노드가 담길 이차원배열
 
@@ -22,11 +23,16 @@ public class GridMake : MonoBehaviour
 
 
 
-    private void Start()
+   void Awake()
     {
         cam = GetComponent<Camera>();
-        bottomLeft = tilemap.WorldToCell(tilemap.transform.position - tilemap.size / 2);
-        topRight = tilemap.WorldToCell(tilemap.transform.position + tilemap.size / 2);
+        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0, 0);
+        Debug.Log(bottomLeft);
+        topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0,0);
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브
+        cube.transform.position = bottomLeft;
+        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브
+        cube2.transform.position = topRight;
     }
 
 
@@ -44,7 +50,7 @@ public class GridMake : MonoBehaviour
             {
                 Vector2 startPos = Vector2.zero - new Vector2(gridWorldSize.x / 2.0f, gridWorldSize.y / 2.0f);
                 Vector2 nodePos = startPos + new Vector2(x + 0.5f, y + 0.5f);
-                gridArray[x, y] = new Node(true,x,y);
+                gridArray[x, y] = new Node(true,x,y,nodePos);
                 GameObject obj = Instantiate(groundPrefab, startPos + new Vector2(x + 0.5f, y + 0.5f), Quaternion.Euler(0, 0, 0));
                 obj.transform.parent = parentGrid.transform;
             }
@@ -60,13 +66,16 @@ public class GridMake : MonoBehaviour
             for (int j = 0; j < gridWorldSize.y; j++)
             {
                 bool walkable = true;
+
+                Debug.Log(bottomLeft);
+                foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i*0.75f + bottomLeft.x, j*0.75f + bottomLeft.y), 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
+                {
+
+                    if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; Debug.Log("hit"); }
+                }
+                gridArray[i, j] = new Node(walkable, i + (int)bottomLeft.x, j + (int)bottomLeft.y, new Vector2(i * 0.75f + bottomLeft.x, j * 0.75f + bottomLeft.y));
                 
-                //  Debug.Log(bottomLeft);
-                foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i + bottomLeft.x, j + bottomLeft.y), 0.4f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
-                if (col.gameObject.layer == LayerMask.NameToLayer("Wall")) walkable = true;
-                gridArray[i, j] = new Node(walkable, i + (int)bottomLeft.x, j + (int)bottomLeft.y);
-                Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", "+ gridArray[i,j].gridY);
-                Debug.Log("1");
+                Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
              }
         }
     }

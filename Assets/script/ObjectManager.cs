@@ -13,7 +13,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject enemySPrefab;
     public GameObject enemyMPrefab;
     public GameObject enemyLPrefab;
-    public GameObject wallPrefab;
+    
     GameObject[] targetPool; // 풀 링할 타겟 설정
 
     GameObject[] playerBullet;
@@ -21,7 +21,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] enemyS;
     GameObject[] enemyM;
     GameObject[] enemyL;
-    GameObject[] wall;
+    
 
     // Start is called before the first frame update
     void Awake()
@@ -36,7 +36,7 @@ public class ObjectManager : MonoBehaviour
         enemyS = new GameObject[50];
         enemyM = new GameObject[50];
         enemyL = new GameObject[50];
-        wall = new GameObject[50];
+        
         StartCoroutine("Generate");
         DontDestroyOnLoad(gameObject);
     }
