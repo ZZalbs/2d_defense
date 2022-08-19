@@ -19,7 +19,7 @@ public class aStar : MonoBehaviour
         List<Node> openSet = new List<Node>();
         List<Node> closedSet = new List<Node>();
         openSet.Add(startNode);
-
+        
         while (openSet.Count > 0)
         {
             Node currentNode = openSet[0];
@@ -31,7 +31,7 @@ public class aStar : MonoBehaviour
                     currentNode = openSet[i];
                 }
             }
-           
+            Debug.Log("now : " + currentNode.gridX + "," + currentNode.gridY + ","+currentNode.walkable);
 
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
@@ -48,7 +48,7 @@ public class aStar : MonoBehaviour
                 // currentNode.ChangeColor = Color.Lerp(Color.cyan, Color.white, 0.2f);
             }
             //Debug.Log(currentNode.gridX+ ","+currentNode.gridY+ "," + currentNode.start+ "," + currentNode.end + "," + currentNode.walkable);
-            //이웃 노드를 검색
+            //이웃 노드를 검색s
 
             foreach (Node neighbour in gridCode.GetNeighbours(currentNode))  // neighbor : 현 노드의 이웃
             {
@@ -60,8 +60,8 @@ public class aStar : MonoBehaviour
                 }
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour); // 왔던 거리 + 갈 거리
-                                      //Debug.Log(currentNode.gridX+","+currentNode.gridY);
-                                      //Debug.Log(neighbour.gridX + "," + neighbour.gridY);
+                                      Debug.Log("now : "+currentNode.gridX+","+currentNode.gridY);
+                                      Debug.Log("neighbor : "+neighbour.gridX + "," + neighbour.gridY);
                 //
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
@@ -94,7 +94,7 @@ public class aStar : MonoBehaviour
         {
             path.Add(currentNode);
             currentNode = currentNode.parent;
-            Debug.Log("("+currentNode.gridX+","+currentNode.gridY+")");
+            //Debug.Log("("+currentNode.gridX+","+currentNode.gridY+")");
         }
         
         path.Add(startNode);

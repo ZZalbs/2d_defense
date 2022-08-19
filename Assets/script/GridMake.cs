@@ -67,15 +67,14 @@ public class GridMake : MonoBehaviour
             {
                 bool walkable = true;
 
-                Debug.Log(bottomLeft);
+                //Debug.Log(bottomLeft);
                 foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i*0.75f + bottomLeft.x, j*0.75f + bottomLeft.y), 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
                 {
-
-                    if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; Debug.Log("hit"); }
+                    if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; }
                 }
-                gridArray[i, j] = new Node(walkable, i + (int)bottomLeft.x, j + (int)bottomLeft.y, new Vector2(i * 0.75f + bottomLeft.x, j * 0.75f + bottomLeft.y));
+                gridArray[i, j] = new Node(walkable, i,j, new Vector2(i * 0.75f + bottomLeft.x, j * 0.75f + bottomLeft.y));
                 
-                Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
+                //Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
              }
         }
     }
@@ -89,13 +88,15 @@ public class GridMake : MonoBehaviour
         //상하좌우의 노드 먼저 계산
         for (int i = 0; i < 4; i++)
         {
-            int checkX = node.gridX + temp[i, 0];
-            int checkY = node.gridY + temp[i, 1];
-            if (checkX >= 0 && checkX < (int)gridWorldSize.x && checkY >= 0 && checkY < (int)gridWorldSize.y) // x,y가 월드 내 유효한 좌표면
+            int indexX = node.gridX + temp[i, 0];
+            int indexY = node.gridY + temp[i, 1];
+            double posX = node.gridX + temp[i, 0]*0.75;
+            double posY = node.gridY + temp[i, 1]*0.75;
+            if (indexX >= 0 && indexX < (int)gridWorldSize.x && indexY >= 0 && indexY < (int)gridWorldSize.y) // x,y가 월드 내 유효한 좌표면
             {
-                if (gridArray[checkX, checkY].walkable)
+                if (gridArray[indexX, indexY].walkable)
                     walkableUDLR[i] = true;
-                neighbours.Add(gridArray[checkX, checkY]);
+                neighbours.Add(gridArray[indexX, indexY]);
             }
         }
         //for(int i=0;i<neighbours.Count;i++)

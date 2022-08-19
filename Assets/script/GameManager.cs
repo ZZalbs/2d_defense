@@ -21,9 +21,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         g.getGridFromTile();
-        g.GetNeighbours(g.gridArray[0, 0]);
         //a.gridArray = g.gridArray;
+        
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
+        
         enemyPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
         StartCoroutine(EnemySmake());
     }

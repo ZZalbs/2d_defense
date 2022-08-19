@@ -16,8 +16,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Translate(Path[curPos].position*Time.deltaTime);
-        Debug.Log(Path[curPos].position);
+        Vector3 moveDir = (Path[curPos].position - gameObject.transform.position).normalized;
+        gameObject.transform.Translate(moveDir*Time.deltaTime);
+        Debug.Log(Path[curPos].gridX + "," + Path[curPos].gridY);
         if (gameObject.transform.position == Path[curPos].position)
         {
             curPos++;
