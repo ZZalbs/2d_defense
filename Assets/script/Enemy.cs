@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour
     public int hp;
     public float speed;
     public List<Node> Path;
-    int curPos=0;
+    public aStar a;
+    [SerializeField]int curPos=0;
     Vector3 targetPos;
 
     void Start()
@@ -28,10 +29,9 @@ public class Enemy : MonoBehaviour
             if (curPos >= Path.Count - 1)
             {
                 curPos = 0;
+                targetPos = Path[curPos].position;
                 gameObject.SetActive(false);
-                
             }
-               
         }
     }
 
@@ -42,5 +42,12 @@ public class Enemy : MonoBehaviour
         hp--;
         if (hp <= 0)
             this.gameObject.SetActive(false);
+    }
+
+    public void changePath()
+    {
+        Path = a.RetracePath(Path[curPos], Path[Path.Count - 1]);
+        curPos = 0;
+        targetPos = Path[curPos].position;
     }
 }

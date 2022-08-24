@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
                 enemy.transform.position = startPos.transform.position;
                 Enemy code = enemy.GetComponent<Enemy>();
                 code.Path = enemyPath;
+                code.a = a;
             }
             yield return new WaitForSeconds(1.0f);
         }
