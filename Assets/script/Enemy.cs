@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         targetPos = Path[curPos].position;
+        GameManager.EnemyRetrace += changePath;
     }
 
     // Update is called once per frame

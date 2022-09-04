@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     List<Node> enemyPath;
     public GameObject startPos;
 
+    public delegate void EnemyPathHandler(); 
+    public static event EnemyPathHandler EnemyRetrace;
+
     void Awake()
     {
         g = GetComponent<GridMake>();
