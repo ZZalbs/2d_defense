@@ -16,6 +16,6 @@ public class TileFunc : MonoBehaviour
         Vector3Int cellPosition = tilemap.WorldToCell(pos);
         tilemap.SetTile(cellPosition, null);
         Vector2Int newPosition = new Vector2Int(cellPosition.x + (int)gridWorldSize.x / 2 +3, cellPosition.y + (int)gridWorldSize.y / 2 -1);
-        Debug.Log("pos : "+newPosition);
+        //Debug.Log("pos : "+newPosition);
     }
 }

@@ -14,7 +14,16 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         targetPos = Path[curPos].position;
+        
+    }
+
+    void OnEnable()
+    {
         GameManager.EnemyRetrace += changePath;
+    }
+    void OnDisable()
+    {
+        GameManager.EnemyRetrace -= changePath;
     }
 
     // Update is called once per frame
@@ -22,7 +31,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 moveDir = (targetPos - gameObject.transform.position);
         gameObject.transform.Translate(moveDir.normalized * Time.deltaTime*speed , Space.World);
-        Debug.Log(Path[curPos].gridX + "," + Path[curPos].gridY);
+        //Debug.Log(Path[curPos].gridX + "," + Path[curPos].gridY);
         if (Vector3.Distance(gameObject.transform.position, targetPos) <0.1f)
         {
             curPos++;
@@ -47,6 +56,7 @@ public class Enemy : MonoBehaviour
 
     public void changePath()
     {
+        Debug.Log("1111111");
         Path = a.RetracePath(Path[curPos], Path[Path.Count - 1]);
         curPos = 0;
         targetPos = Path[curPos].position;

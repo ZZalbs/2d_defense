@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         g = GetComponent<GridMake>();
-        g.gridWorldSize = gridWorldSize; 
+        g.gridWorldSize = gridWorldSize;
         a.gridCode = g;
     }
 
@@ -25,10 +25,11 @@ public class GameManager : MonoBehaviour
     {
         g.getGridFromTile();
         //a.gridArray = g.gridArray;
-        
+
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
-        
+
         enemyPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
+        //EnemyRetrace();
         StartCoroutine(EnemySmake());
     }
 
@@ -53,5 +54,13 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1.0f);
         }
+    }
+
+    public void enemyReset()
+    {
+        if (EnemyRetrace != null)
+            EnemyRetrace();
+        else
+            Debug.Log("Event ERROR!");
     }
 }
