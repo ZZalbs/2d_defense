@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public delegate void EnemyPathHandler(); 
     public static event EnemyPathHandler EnemyRetrace;
 
+    public static GameManager instanceGM;
+
     void Awake()
     {
         g = GetComponent<GridMake>();
@@ -54,6 +56,11 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1.0f);
         }
+    }
+
+    public void tileFalse(int i,int j)
+    {
+        g.TileFalse(i,j);
     }
 
     public void enemyReset()

@@ -14,8 +14,12 @@ public class TileFunc : MonoBehaviour
     public void MakeDot(Vector3 pos)
     {
         Vector3Int cellPosition = tilemap.WorldToCell(pos);
-        tilemap.SetTile(cellPosition, null);
+        ///********************************************************
+        /// 버그 위치
+
         Vector2Int newPosition = new Vector2Int(cellPosition.x + (int)gridWorldSize.x / 2 +3, cellPosition.y + (int)gridWorldSize.y / 2 -1);
+        GameManager.instanceGM.tileFalse(newPosition.x, newPosition.y);
+        tilemap.SetTile(cellPosition, null);
         //Debug.Log("pos : "+newPosition);
     }
 }

@@ -31,7 +31,7 @@ public class aStar : MonoBehaviour
                     currentNode = openSet[i];
                 }
             }
-            Debug.Log("now : " + currentNode.gridX + "," + currentNode.gridY + ","+currentNode.walkable);
+            //Debug.Log("now : " + currentNode.gridX + "," + currentNode.gridY + ","+currentNode.walkable);
 
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
@@ -60,8 +60,8 @@ public class aStar : MonoBehaviour
                 }
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour); // 왔던 거리 + 갈 거리
-                                      Debug.Log("now : "+currentNode.gridX+","+currentNode.gridY);
-                                      Debug.Log("neighbor : "+neighbour.gridX + "," + neighbour.gridY);
+                                      //Debug.Log("now : "+currentNode.gridX+","+currentNode.gridY);
+                                      //Debug.Log("neighbor : "+neighbour.gridX + "," + neighbour.gridY);
                 //
                 if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {

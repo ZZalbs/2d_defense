@@ -79,6 +79,18 @@ public class GridMake : MonoBehaviour
         }
     }
 
+
+    public void TileFalse(int i,int j)
+    {
+        gridArray[i, j].walkable = false;
+        Debug.Log("grid ("+ i+","+ j+ ") is false");
+    }
+    public void TileTrue(int i, int j)
+    {
+        gridArray[i, j].walkable = true;
+    }
+
+
     public List<Node> GetNeighbours(Node node)
     {
         List<Node> neighbours = new List<Node>();
@@ -104,4 +116,5 @@ public class GridMake : MonoBehaviour
 
         return neighbours;
     }
+
 }
