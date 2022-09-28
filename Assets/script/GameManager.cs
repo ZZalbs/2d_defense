@@ -14,10 +14,28 @@ public class GameManager : MonoBehaviour
     public delegate void EnemyPathHandler(); 
     public static event EnemyPathHandler EnemyRetrace;
 
+    //private static GameManager _instanceGM;
     public static GameManager instanceGM;
+    //{
+    //    get
+    //    {
+    //        if (!_instanceGM)
+    //        {
+    //            _instanceGM = GameObject.FindObjectOfType(typeof(GameManager));
+    //            return _instanceGM;
+    //        }
+    //    }
+    //}
+
+
 
     void Awake()
     {
+        if (instanceGM != this)
+        {
+            instanceGM = this;
+        }
+
         g = GetComponent<GridMake>();
         g.gridWorldSize = gridWorldSize;
         a.gridCode = g;

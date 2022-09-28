@@ -59,5 +59,6 @@ public class Enemy : MonoBehaviour
         Path = a.RetracePath(Path[curPos], Path[Path.Count - 1]);
         curPos = 0;
         targetPos = Path[curPos].position;
+        Debug.Log(this.gameObject.name+"changed path");
     }
 }
