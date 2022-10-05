@@ -7,18 +7,20 @@ public class Enemy : MonoBehaviour
     public int hp;
     public float speed;
     public List<Node> Path;
+    [SerializeField] private Vector2[] pos;
     public aStar a;
-    [SerializeField]int curPos=0;
+    int curPos=0;
     Vector3 targetPos;
 
     void Start()
     {
-        targetPos = Path[curPos].position;
-        
+        targetPos = Path[curPos].position;   
+        pos = new Vector2[Path.Count];
     }
 
     void OnEnable()
     {
+        
         GameManager.EnemyRetrace += changePath;
     }
     void OnDisable()
@@ -43,6 +45,15 @@ public class Enemy : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+
+
+        // 디버그용
+        for (int i = 0; i < Path.Count - 1; i++)
+        {
+            pos[i] = new Vector2(Path[i].gridX, Path[i].gridY);
+            Debug.Log(Path[i]);
+            Debug.Log(pos[i]);
+        }
     }
 
 
@@ -56,7 +67,9 @@ public class Enemy : MonoBehaviour
 
     public void changePath()
     {
+        
         Path = a.RetracePath(Path[curPos], Path[Path.Count - 1]);
+
         curPos = 0;
         targetPos = Path[curPos].position;
         Debug.Log(this.gameObject.name+"changed path");
