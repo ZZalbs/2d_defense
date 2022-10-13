@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public List<Node> Path;
     [SerializeField] private Vector2[] pos;
     public aStar a;
-    int curPos=0;
+    [SerializeField]int curPos=0;
     Vector3 targetPos;
 
     void Start()
@@ -67,9 +67,8 @@ public class Enemy : MonoBehaviour
 
     public void changePath()
     {
-        
+        a.FindPath(Path[curPos], Path[Path.Count - 1]);
         Path = a.RetracePath(Path[curPos], Path[Path.Count - 1]);
-
         curPos = 0;
         targetPos = Path[curPos].position;
         Debug.Log(this.gameObject.name+"changed path");

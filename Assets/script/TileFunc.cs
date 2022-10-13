@@ -19,7 +19,7 @@ public class TileFunc : MonoBehaviour
         Debug.Log(GameManager.instanceGM);
 
         Vector2Int newPosition = new Vector2Int(cellPosition.x + (int)gridWorldSize.x / 2 +3, cellPosition.y + (int)gridWorldSize.y / 2 -1);
-        Debug.Log(cellPosition);
+        //Debug.Log(cellPosition);
         GameManager.instanceGM.tileFalse(newPosition.x, newPosition.y);
         tilemap.SetTile(cellPosition, null);
         //Debug.Log("pos : "+newPosition);

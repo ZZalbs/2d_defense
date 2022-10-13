@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class GridMake : MonoBehaviour
 {
+    const float tileSize = 0.75f;
+
     public Vector2 gridWorldSize; // 전체 크기 
     public Tilemap tilemap;
 
@@ -12,7 +14,7 @@ public class GridMake : MonoBehaviour
     public Vector3 bottomLeft;
     public Vector3 topRight;
 
-    public Node[,] gridArray; //  노드가 담길 이차원배열
+    [SerializeField]public Node[,] gridArray; //  노드가 담길 이차원배열
 
     Ray camRay; // 스크린포인트에서 레이캐스트 쏘기 위해서
     RaycastHit2D rayhit; // 맞은 타일맵 가져올것임
@@ -68,15 +70,16 @@ public class GridMake : MonoBehaviour
                 bool walkable = true;
 
                 //Debug.Log(bottomLeft);
-                foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i*0.75f + bottomLeft.x, j*0.75f + bottomLeft.y), 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
+                foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i*tileSize + bottomLeft.x, j*tileSize + bottomLeft.y), 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
                 {
                     if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; }
                 }
-                gridArray[i, j] = new Node(walkable, i,j, new Vector2(i * 0.75f + bottomLeft.x, j * 0.75f + bottomLeft.y));
-                
+                gridArray[i, j] = new Node(walkable, i,j, new Vector2(i * tileSize + bottomLeft.x, j * tileSize + bottomLeft.y));
+
                 //Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
-             }
+            }
         }
+
     }
 
 
@@ -102,8 +105,8 @@ public class GridMake : MonoBehaviour
         {
             int indexX = node.gridX + temp[i, 0];
             int indexY = node.gridY + temp[i, 1];
-            double posX = node.gridX + temp[i, 0]*0.75;
-            double posY = node.gridY + temp[i, 1]*0.75;
+            double posX = node.gridX + temp[i, 0]* tileSize;
+            double posY = node.gridY + temp[i, 1]* tileSize;
             if (indexX >= 0 && indexX < (int)gridWorldSize.x && indexY >= 0 && indexY < (int)gridWorldSize.y) // x,y가 월드 내 유효한 좌표면
             {
                 if (gridArray[indexX, indexY].walkable)

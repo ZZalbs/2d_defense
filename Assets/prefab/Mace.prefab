@@ -98,3 +98,4 @@ MonoBehaviour:
   speed: 1
   pos: []
   a: {fileID: 0}
+  curPos: 0
