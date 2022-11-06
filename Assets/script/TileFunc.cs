@@ -20,8 +20,10 @@ public class TileFunc : MonoBehaviour
 
         Vector2Int newPosition = new Vector2Int(cellPosition.x + (int)gridWorldSize.x / 2 +3, cellPosition.y + (int)gridWorldSize.y / 2 -1);
         //Debug.Log(cellPosition);
-        GameManager.instanceGM.tileFalse(newPosition.x, newPosition.y);
-        tilemap.SetTile(cellPosition, null);
-        //Debug.Log("pos : "+newPosition);
+        if (GameManager.instanceGM.isSetWall) {
+            GameManager.instanceGM.tileFalse(newPosition.x, newPosition.y);
+            tilemap.SetTile(cellPosition, null);
+            //Debug.Log("pos : "+newPosition);
+        }
     }
 }

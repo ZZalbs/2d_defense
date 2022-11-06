@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
 
 
         // 디버그용
-        for (int i = 0; i < Path.Count - 1; i++)
+        for (int i = 0; i < Path.Count; i++)
         {
             pos[i] = new Vector2(Path[i].gridX, Path[i].gridY);
             Debug.Log(Path[i]);

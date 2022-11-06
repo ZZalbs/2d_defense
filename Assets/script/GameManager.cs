@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-
+    public bool isSetWall=false;
 
     void Awake()
     {
@@ -79,8 +79,17 @@ public class GameManager : MonoBehaviour
     public void tileFalse(int i,int j)
     {
         g.TileFalse(i,j);
+        
+        enemyReset();
     }
 
+    public void setWall()
+    {
+        if(isSetWall)
+            isSetWall = false;
+        else
+            isSetWall = true;
+    }
     public void enemyReset()
     {
         if (EnemyRetrace != null)
