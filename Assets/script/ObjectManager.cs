@@ -13,7 +13,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject enemySPrefab;
     public GameObject enemyMPrefab;
     public GameObject enemyLPrefab;
-    
+
     GameObject[] targetPool; // 풀 링할 타겟 설정
 
     GameObject[] playerBullet;
@@ -21,7 +21,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] enemyS;
     GameObject[] enemyM;
     GameObject[] enemyL;
-    
+
 
     // Start is called before the first frame update
     void Awake()
@@ -63,16 +63,16 @@ public class ObjectManager : MonoBehaviour
             enemyL[i].SetActive(false);
         }
 
-        for (int i = 0; i < turretA.Length; i++)
-        {
-            turretA[i] = Instantiate(turretAPrefab);
-            turretA[i].SetActive(false);
-        }
-
         for (int i = 0; i < playerBullet.Length; i++)
         {
             playerBullet[i] = Instantiate(playerBulletPrefab);
             playerBullet[i].SetActive(false);
+        }
+
+        for (int i = 0; i < turretA.Length; i++)
+        {
+            turretA[i] = Instantiate(turretAPrefab);
+            turretA[i].SetActive(false);
         }
 
         Time.timeScale = 1.0f;
