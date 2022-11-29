@@ -46,7 +46,7 @@ public class TurretA : TurretInterface
 
     IEnumerator TurretMain()
     {
-        TargetFind();
+        Attack(TargetFind());
         yield return new WaitForSeconds(this.attackDelay);
     }
 

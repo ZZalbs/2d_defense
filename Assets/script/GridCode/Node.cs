@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Node
 {
     public GameObject ground; // 노드를 저장하는 게임오브젝트

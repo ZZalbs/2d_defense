@@ -14,11 +14,11 @@ public class ObjectManager : MonoBehaviour
     public GameObject enemyMPrefab;
     public GameObject enemyLPrefab;
 
-    GameObject[] targetPool; // 풀 링할 타겟 설정
+    [SerializeField] private GameObject[] targetPool; // 풀 링할 타겟 설정
 
     GameObject[] playerBullet;
-    GameObject[] turretA;
-    GameObject[] enemyS;
+    [SerializeField] private GameObject[] turretA;
+    [SerializeField] private GameObject[] enemyS;
     GameObject[] enemyM;
     GameObject[] enemyL;
 
@@ -48,6 +48,7 @@ public class ObjectManager : MonoBehaviour
         for (int i = 0; i < enemyS.Length; i++)
         {
             enemyS[i] = Instantiate(enemySPrefab);
+            enemyS[i].name = "enemyS" + i;
             enemyS[i].SetActive(false);
         }
 
@@ -80,34 +81,42 @@ public class ObjectManager : MonoBehaviour
         loading.SetActive(false);
     }
 
-    public GameObject MakeObj(string type)
+    public GameObject MakeObj(GameManager.Obj type)
     {
+
         switch (type)
         {
-            case "enemyS":
+            case GameManager.Obj.enemyS:
                 targetPool = enemyS;
+                Debug.Log("enemyS Target Pool Set");
                 break;
-            case "enemyM":
+            case GameManager.Obj.enemyM:
                 targetPool = enemyM;
+                Debug.Log("enemyM Target Pool Set");
                 break;
-            case "enemyL":
+            case GameManager.Obj.enemyL:
                 targetPool = enemyL;
+                Debug.Log("enemyL Target Pool Set");
                 break;
-            case "turretA":
+            case GameManager.Obj.turretA: // <- 철자 오류입니다, 철자오류가 일어나서 해당 Target Pool을 받지 않습니다 (enum 열거체를 사용해 이러한 부분을 방지합시다)
                 targetPool = turretA;
+                Debug.Log("Turret A Target Pool Set");
                 break;
-            case "playerBullet":
+            case GameManager.Obj.playerBullet:
                 targetPool = playerBullet;
+                Debug.Log("playerBullet Target Pool Set");
                 break;
         }
-        for (int i = 0; i < targetPool.Length; i++)
+
+        for (int i = 0; i < targetPool.Length; i++) // 위 경우에서 Target Pool 설정이 제대로 되지 않았기에 기존 enemyS target Pool을 받아옵니다
         {
-            if (!targetPool[i].activeSelf)
+            if (!targetPool[i].activeSelf) // 그 중에서 비활성화된 놈을 찾을겁니다
             {
-                targetPool[i].SetActive(true);
+                targetPool[i].SetActive(true); // 찾았습니다, 자 이제 이놈을 활성화 시키면... 어디서 갑자기 새로운 적이 우상단에 나타나게 됩니다 (왜 우상단인지는 모르겠습니다)
                 return targetPool[i];
             }
         }
+
         return null;
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class aStar : MonoBehaviour
+public class aStar : MonoBehaviour // 최단경로 탐색 알고리즘
 {
     public GridMake gridCode;
     public Node start, end; //start, end 구현예정
@@ -14,7 +14,7 @@ public class aStar : MonoBehaviour
     //    gridCode = GetComponent<GridMake>();
     //}
 
-    public void FindPath(Node startNode,Node finalNode)
+    public void FindPath(Node startNode,Node finalNode) // 경로 탐색
     {
         List<Node> openSet = new List<Node>();
         List<Node> closedSet = new List<Node>();
@@ -72,7 +72,7 @@ public class aStar : MonoBehaviour
                     // 수정 ㄱㄱㄱㄱㄱ
                     neighbour.hCost = GetDistance(neighbour, finalNode);
 
-                    neighbour.parent = currentNode;
+                    neighbour.parent = currentNode; // 부모 Node 갱신
 
                     if (!openSet.Contains(neighbour))
                     {

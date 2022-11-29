@@ -88,6 +88,7 @@ public class GridMake : MonoBehaviour
         gridArray[i, j].walkable = false;
         Debug.Log("grid ("+ i+","+ j+ ") is false");
     }
+
     public void TileTrue(int i, int j)
     {
         gridArray[i, j].walkable = true;
