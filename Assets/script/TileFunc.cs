@@ -36,9 +36,8 @@ public class TileFunc : MonoBehaviour
             Debug.Log("*****" + turretA.name + "*****");
             if (turretA != null)
             {
-                turretA.transform.position = newPosition; // 여기서 우상단에 나타나는게 아닌가 싶습니다. (사실 newPosition이 tile index를 2차원배열처럼 반환하니 우상단 비율이 높을 뿐입니다, 실제로는 1사분면쪽에서 생성이 됩니다)
+                turretA.transform.position = GameManager.instanceGM.getTilePos((int)newPosition.x, (int)newPosition.y); // 여기서 우상단에 나타나는게 아닌가 싶습니다. (사실 newPosition이 tile index를 2차원배열처럼 반환하니 우상단 비율이 높을 뿐입니다, 실제로는 1사분면쪽에서 생성이 됩니다)
                 TurretA code = turretA.GetComponent<TurretA>();
-                Debug.Log(newPosition);
             }
             tilemap.SetTile(cellPosition, null);
             //Debug.Log("pos : "+newPosition);

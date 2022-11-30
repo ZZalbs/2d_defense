@@ -82,6 +82,11 @@ public static GameManager instanceGM;
         // 실제로 바꿔보니 이제 기존 TileFalse를 할 때 비활성화 되있던 Enemy도 False된 Tile을 경로에 잘 반영합니다
     }
 
+    public Vector3 getTilePos(int i,int j)
+    {
+        return g.GetTilePos(i, j);
+    }
+
     public void setWall()
     {
         if(isSetWall)

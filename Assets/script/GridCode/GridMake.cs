@@ -94,6 +94,11 @@ public class GridMake : MonoBehaviour
         gridArray[i, j].walkable = true;
     }
 
+    public Vector3 GetTilePos(int i,int j)
+    {
+        return gridArray[i, j].position;
+    }
+
 
     public List<Node> GetNeighbours(Node node)
     {
