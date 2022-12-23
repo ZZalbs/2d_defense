@@ -23,7 +23,7 @@ public class MouseClick : MonoBehaviour
             
             if (overCollider2d!=null)
             {
-                Debug.Log("hit");
+                Debug.Log("hit"); 
                 overCollider2d.transform.GetComponent<TileFunc>().MakeDot(mousePosition);
             }
         }

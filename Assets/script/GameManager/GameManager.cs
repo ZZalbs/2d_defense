@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     GridMake g;
     public aStar a;
@@ -87,7 +87,12 @@ public static GameManager instanceGM;
         return g.GetTilePos(i, j);
     }
 
-    public void setWall()
+    public bool getTileTrue(int i, int j)
+    {
+        return g.GetTileTrue(i, j);
+    }
+
+    public void SetWall()
     {
         if(isSetWall)
             isSetWall = false;
@@ -95,8 +100,10 @@ public static GameManager instanceGM;
             isSetWall = true;
     }
 
-    public void setTurret()
+    public void SetTurret()
     {
+        if (isSetWall)
+            SetWall();
         if (isSetTurret)
             isSetTurret = false;
         else
