@@ -41,7 +41,6 @@ public class Enemy : MonoBehaviour
             if (curPos >= Path.Count - 1) // Path내 모든 위치를 이동했다면
             {
                 curPos = 0; 
-                targetPos = Path[curPos].position;
                 gameObject.SetActive(false); // 값을 초기화 한 뒤 오브젝트 비활성화
             }
         }

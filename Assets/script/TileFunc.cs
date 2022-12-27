@@ -30,7 +30,7 @@ public class TileFunc : MonoBehaviour
         
         if (GameManager.instanceGM.isSetTurret && !GameManager.instanceGM.getTileTrue((int)newPosition.x, (int)newPosition.y))
         {
-            GameObject turretA = ObjectManager.instance.MakeObj(GameManager.Obj.turretA); // 우선 대충 수정했습니다, enum 열거체를 사용해 철자오류가 나도 바로 확인할 수 있도록 합시다
+            GameObject turretA = ObjectManager.instance.MakeObj(ObjectManager.Obj.turretA); // 우선 대충 수정했습니다, enum 열거체를 사용해 철자오류가 나도 바로 확인할 수 있도록 합시다
             Debug.Log("*****" + turretA.name + "*****");
             if (turretA != null)
             {

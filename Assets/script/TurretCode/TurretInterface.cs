@@ -9,7 +9,7 @@ public class TurretInterface : MonoBehaviour
     public float range;
     public string enemyTag = "enemy";
 
-    public virtual Transform TargetFind() { return null; }
+    public virtual Transform TargetShortFind() { return null; }
     public virtual void Attack(Transform enemy) { }
 
 }

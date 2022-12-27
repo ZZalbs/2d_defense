@@ -14,7 +14,7 @@ public partial class GameManager : MonoBehaviour
     public delegate void EnemyPathHandler(); 
     public static event EnemyPathHandler EnemyRetrace;
 
-    public enum Obj {enemyS,enemyM,enemyL,turretA,playerBullet}
+    
 //private static GameManager _instanceGM;
 public static GameManager instanceGM;
     //{
@@ -58,7 +58,7 @@ public static GameManager instanceGM;
     {
         while (true)
         {
-            GameObject enemy = ObjectManager.instance.MakeObj(Obj.enemyS);
+            GameObject enemy = ObjectManager.instance.MakeObj(ObjectManager.Obj.enemyS);
             if (enemy != null)
             {
                 enemy.transform.position = startPos.transform.position;

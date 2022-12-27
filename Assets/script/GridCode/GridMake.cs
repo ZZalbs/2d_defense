@@ -31,10 +31,7 @@ public class GridMake : MonoBehaviour
         bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0, 0);
         Debug.Log(bottomLeft);
         topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0,0);
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브
-        cube.transform.position = bottomLeft;
-        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브
-        cube2.transform.position = topRight;
+
     }
 
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TurretA : TurretInterface
 {
 
+    Transform shortestEnemy = null;
 
     void Start()
     {
@@ -16,12 +17,12 @@ public class TurretA : TurretInterface
         
     }
 
-    public override Transform TargetFind ()
+    public override Transform TargetShortFind ()
     {
         GameObject[] searchedEnemy = GameObject.FindGameObjectsWithTag(enemyTag); // 적 콜라이더
         
 
-        Transform shortestEnemy = null;
+        
         if (searchedEnemy.Length > 0)
         {
             float shortDistance = Mathf.Infinity; // 기준은 최댓값에서 시작
@@ -35,19 +36,25 @@ public class TurretA : TurretInterface
                 }
             }
         }
+
         return shortestEnemy;
     }
 
     public override void Attack(Transform enemy) 
     {
+        Vector3 dir = (enemy.position -gameObject.transform.position).normalized;
+        BulletManager.instanceBM.BulletLinearShoot(gameObject.transform.position, dir, 0.05f);
         Debug.Log("attack to "+ enemy.position);
     }
 
 
     IEnumerator TurretMain()
     {
-        Attack(TargetFind());
-        yield return new WaitForSeconds(this.attackDelay);
+        while (true)
+        {
+            Attack(TargetShortFind());
+            yield return new WaitForSeconds(this.attackDelay);
+        }
     }
 
     
