@@ -21,8 +21,6 @@ public class TurretA : TurretInterface
     {
         GameObject[] searchedEnemy = GameObject.FindGameObjectsWithTag(enemyTag); // 적 콜라이더
         
-
-        
         if (searchedEnemy.Length > 0)
         {
             float shortDistance = Mathf.Infinity; // 기준은 최댓값에서 시작

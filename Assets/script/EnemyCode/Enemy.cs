@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int hp;
+    private int maxhp;
     public float speed;
     public List<Node> Path; // Path는 Findpath를 제외하면 어디서 받아옴???
     [SerializeField] private Vector2[] pos; // 디버그용으로 존재하는듯 -> 타겟의 위치를 직접 확인하는 용도
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
     {
         targetPos = Path[curPos].position; 
         pos = new Vector2[Path.Count];
+        maxhp = hp;
     }
 
     void OnEnable()
@@ -57,10 +59,11 @@ public class Enemy : MonoBehaviour
 
 
 
-    public void Onhit() // 데미지를 입는 경우
+    public void Onhit(int dmg) // 데미지를 입는 경우
     {
-        hp--;
+        hp-=dmg;
         if (hp <= 0)
+            hp = maxhp;
             this.gameObject.SetActive(false);
     }
 

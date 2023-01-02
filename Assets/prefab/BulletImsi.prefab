@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5296508269085674454}
   - component: {fileID: 1865402421425864542}
   - component: {fileID: 8465345727714626556}
+  - component: {fileID: -1712912328690223029}
   m_Layer: 0
   m_Name: BulletImsi
   m_TagString: Untagged
@@ -97,3 +98,20 @@ MonoBehaviour:
   speed: 0
   dir: {x: 0, y: 0, z: 0}
   size: 0
+  dmg: 0
+--- !u!58 &-1712912328690223029
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8336247559599362590}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
