@@ -88,23 +88,23 @@ public class ObjectManager : MonoBehaviour
         {
             case Obj.enemyS:
                 targetPool = enemyS;
-                Debug.Log("enemyS Target Pool Set");
+                // Debug.Log("enemyS Target Pool Set");
                 break;
             case Obj.enemyM:
                 targetPool = enemyM;
-                Debug.Log("enemyM Target Pool Set");
+                // Debug.Log("enemyM Target Pool Set");
                 break;
             case Obj.enemyL:
                 targetPool = enemyL;
-                Debug.Log("enemyL Target Pool Set");
+                // Debug.Log("enemyL Target Pool Set");
                 break;
             case Obj.turretA: 
                 targetPool = turretA;
-                Debug.Log("Turret A Target Pool Set");
+                // Debug.Log("Turret A Target Pool Set");
                 break;
             case Obj.playerBullet:
                 targetPool = playerBullet;
-                Debug.Log("playerBullet Target Pool Set");
+                // Debug.Log("playerBullet Target Pool Set");
                 break;
         }
 

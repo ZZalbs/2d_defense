@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class GridMake : MonoBehaviour
 {
-    const float tileSize = 0.75f;
+    const float tileSize = 1.0f;
 
     public Vector2 gridWorldSize; // 전체 크기 
     public Tilemap tilemap;
@@ -28,10 +28,13 @@ public class GridMake : MonoBehaviour
    void Awake()
     {
         cam = GetComponent<Camera>();
-        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0, 0);
-        Debug.Log(bottomLeft);
-        topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0,0);
-
+        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0.25f, 0);
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        cube.transform.position = bottomLeft;
+        
+        topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0.75f,0);
+        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        cube2.transform.position = topRight;
     }
 
 
@@ -56,7 +59,7 @@ public class GridMake : MonoBehaviour
         }
     }
 
-    public void getGridFromTile() // 생성된 그리드에서 타일 받아오기
+    public void getGridFromTile(Vector3 scale) // 생성된 그리드에서 타일 받아오기
     {
         gridArray = new Node[(int)gridWorldSize.x, (int)gridWorldSize.y];
         
@@ -66,12 +69,12 @@ public class GridMake : MonoBehaviour
             {
                 bool walkable = true;
 
-                //Debug.Log(bottomLeft);
-                foreach (Collider2D col in Physics2D.OverlapCircleAll(new Vector2(i*tileSize + bottomLeft.x, j*tileSize + bottomLeft.y), 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
+                Vector2 posVector = new Vector2((i * tileSize * scale.x) + bottomLeft.x, (j * tileSize * scale.y) + bottomLeft.y);
+                foreach (Collider2D col in Physics2D.OverlapCircleAll(posVector, 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
                 {
                     if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; }
                 }
-                gridArray[i, j] = new Node(walkable, i,j, new Vector2(i * tileSize + bottomLeft.x, j * tileSize + bottomLeft.y));
+                gridArray[i, j] = new Node(walkable, i,j, posVector);
 
                 //Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
             }

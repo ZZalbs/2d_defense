@@ -8,7 +8,7 @@ public partial class GameManager : MonoBehaviour
     public aStar a;
     public GameObject grid;
     public Vector2 gridWorldSize;
-    List<Node> enemyPath;
+    List<Node> defaultPath;
     public GameObject startPos;
 
     public delegate void EnemyPathHandler(); 
@@ -44,12 +44,12 @@ public static GameManager instanceGM;
 
     void Start()
     {
-        g.getGridFromTile();
+        g.getGridFromTile(grid.transform.localScale);
         //a.gridArray = g.gridArray;
 
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); // 처음지점부터 마지막 지점에 대한 Path 탐색
 
-        enemyPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); // Path Node 정보 반환
+        defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); // Path Node 정보 반환
         //EnemyRetrace();
         StartCoroutine(EnemySmake());
     }
@@ -63,13 +63,20 @@ public static GameManager instanceGM;
             {
                 enemy.transform.position = startPos.transform.position;
                 Enemy code = enemy.GetComponent<Enemy>();
-                code.Path = enemyPath; // Path를 받아주지만 비활성화된 Tile에 Path는 받아주지 않습니다
+                code.Path = defaultPath;
                 code.a = a;
             }
             
             yield return new WaitForSeconds(1.0f);
         }
     }
+
+    public List<Node> MakeDefaultPath()
+    {
+        a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
+        return a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
+    }
+
 
     public void tileFalse(int i,int j)
     {
@@ -78,7 +85,7 @@ public static GameManager instanceGM;
         enemyReset();
 
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); 
-        enemyPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); 
+        defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); 
         // 실제로 바꿔보니 이제 기존 TileFalse를 할 때 비활성화 되있던 Enemy도 False된 Tile을 경로에 잘 반영합니다
     }
 
