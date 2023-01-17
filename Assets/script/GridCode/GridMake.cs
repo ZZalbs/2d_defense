@@ -79,7 +79,6 @@ public class GridMake : MonoBehaviour
                 //Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
             }
         }
-
     }
 
 

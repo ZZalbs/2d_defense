@@ -7,23 +7,27 @@ public class TileFunc : MonoBehaviour
     public Vector2 gridWorldSize;
     public Tilemap upTilemap;
     public Tilemap thisTilemap;
+    public TileBase newTile;
 
     private void Start()
     {
+        gridWorldSize = GameManager.instanceGM.gridWorldSize;
         thisTilemap = this.GetComponent<Tilemap>();
     }
 
     public void MakeDot(Vector3 pos)
     {
         Vector3Int cellPosition = upTilemap.WorldToCell(pos);
-        Debug.Log(GameManager.instanceGM);
-
-        Vector3 newPosition = new Vector3(cellPosition.x + (int)gridWorldSize.x / 2, cellPosition.y + (int)gridWorldSize.y / 2 -1,0);
+        cellPosition.z = (int)upTilemap.transform.position.z;
+        Debug.Log("make false"+cellPosition);
+        Vector3Int newPosition = new Vector3Int(cellPosition.x + (int)gridWorldSize.x / 2, cellPosition.y + (int)gridWorldSize.y / 2 -1,0);
         Debug.Log(newPosition);
         if (GameManager.instanceGM.isSetWall) 
         {
+            upTilemap.SetTile(cellPosition, newTile);
+            //upTilemap.RefreshTile(cellPosition);
             GameManager.instanceGM.tileFalse((int)newPosition.x, (int)newPosition.y);
-            upTilemap.SetTile(cellPosition, null); 
+            
         }
 
         
@@ -36,9 +40,10 @@ public class TileFunc : MonoBehaviour
                 turretA.transform.position = GameManager.instanceGM.getTilePos((int)newPosition.x, (int)newPosition.y); 
                 TurretA code = turretA.GetComponent<TurretA>();
             }
-            upTilemap.SetTile(cellPosition, null);
         }
-        
+
+
+
         
     }
 }
