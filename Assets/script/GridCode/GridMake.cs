@@ -29,12 +29,12 @@ public class GridMake : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0.25f, 0);
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
-        cube.transform.position = bottomLeft;
+        //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        //cube.transform.position = bottomLeft;
         
         topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0.75f,0);
-        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
-        cube2.transform.position = topRight;
+        //GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        //cube2.transform.position = topRight;
     }
 
 

@@ -71,12 +71,16 @@ public static GameManager instanceGM;
         }
     }
 
-    public List<Node> MakeDefaultPath()
+    public void MakeDefaultPath()
     {
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
-        return a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
+        defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
     }
 
+    public List<Node> getDefaultPath()
+    {
+        return defaultPath;
+    }
 
     public void tileFalse(int i,int j)
     {
@@ -84,8 +88,7 @@ public static GameManager instanceGM;
         
         enemyReset();
 
-        a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); 
-        defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); 
+        MakeDefaultPath();
         // 실제로 바꿔보니 이제 기존 TileFalse를 할 때 비활성화 되있던 Enemy도 False된 Tile을 경로에 잘 반영합니다
     }
 

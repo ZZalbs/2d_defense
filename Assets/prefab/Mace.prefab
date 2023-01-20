@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
-  speed: 1
+  speed: 3
   Path: []
   pos: []
   a: {fileID: 0}
