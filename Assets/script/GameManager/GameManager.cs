@@ -1,20 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public partial class GameManager : MonoBehaviour
 {
+    public int wallGold; // 나중에 상수로 바꾸기
+    public int turretGold;
+
     GridMake g;
     public aStar a;
     public GameObject grid;
     public Vector2 gridWorldSize;
     List<Node> defaultPath;
-    public GameObject startPos;
 
-    public delegate void EnemyPathHandler(); 
+    public delegate void EnemyPathHandler();
     public static event EnemyPathHandler EnemyRetrace;
 
-    
+    public int enemyCount; // 웨이브 끝 판단용 적 죽은 숫자 세기
+
+    public int gold;
+    public Text goldText;
+
+    public bool isWaveTime = false; // wavetime이 true일때는 벽 건설 불가.
+    public float buildTime = 10.0f; // 나중에 상수로 바꾸기
+
+    int[] waveMonster = new int[] {10, 20, 30, 30, 30};
+    int waveCount = 0;
+
 //private static GameManager _instanceGM;
 public static GameManager instanceGM;
     //{
@@ -36,7 +50,7 @@ public static GameManager instanceGM;
         {
             instanceGM = this;
         }
-
+        gold = 30;
         g = GetComponent<GridMake>(); 
         g.gridWorldSize = gridWorldSize;
         a.gridCode = g; // a* algorithm에 값 입력
@@ -51,26 +65,47 @@ public static GameManager instanceGM;
 
         defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); // Path Node 정보 반환
         //EnemyRetrace();
-        StartCoroutine(EnemySmake());
+        Invoke("StartNewWave", buildTime);
+        goldText.text = gold.ToString();
     }
 
-    IEnumerator EnemySmake()
+    private void Update()
     {
-        while (true)
+        if (enemyCount == waveMonster[waveCount])
+        {
+            enemyCount = 0;
+            isWaveTime = false;
+            waveCount++;
+            Invoke("StartNewWave", buildTime);
+        }
+    }
+
+    IEnumerator EnemySmake(int num)
+    {
+        enemyCount = 0;
+        isWaveTime = true;
+        for (int i=0;i<num; i++)
         {
             GameObject enemy = ObjectManager.instance.MakeObj(ObjectManager.Obj.enemyS);
             if (enemy != null)
             {
-                enemy.transform.position = startPos.transform.position;
+                enemy.transform.position = g.gridArray[0, 0].position;
                 Enemy code = enemy.GetComponent<Enemy>();
                 code.Path = defaultPath;
                 code.a = a;
-            }
-            
+            }            
             yield return new WaitForSeconds(1.0f);
         }
+        
     }
 
+    void StartNewWave()
+    {
+        StartCoroutine(EnemySmake(waveMonster[waveCount]));
+    }
+
+
+    //PATH
     public void MakeDefaultPath()
     {
         a.FindPath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]);
@@ -84,12 +119,11 @@ public static GameManager instanceGM;
 
     public void tileFalse(int i,int j)
     {
-        g.TileFalse(i,j);
-        
+        g.TileFalse(i, j);
+
         enemyReset();
 
         MakeDefaultPath();
-        // 실제로 바꿔보니 이제 기존 TileFalse를 할 때 비활성화 되있던 Enemy도 False된 Tile을 경로에 잘 반영합니다
     }
 
     public Vector3 getTilePos(int i,int j)
@@ -104,7 +138,9 @@ public static GameManager instanceGM;
 
     public void SetWall()
     {
-        if(isSetWall)
+        if (isSetTurret)
+            isSetTurret = false;
+        if (isSetWall)
             isSetWall = false;
         else
             isSetWall = true;
@@ -113,7 +149,8 @@ public static GameManager instanceGM;
     public void SetTurret()
     {
         if (isSetWall)
-            SetWall();
+            isSetWall = false;
+
         if (isSetTurret)
             isSetTurret = false;
         else
@@ -126,5 +163,38 @@ public static GameManager instanceGM;
             EnemyRetrace();
         else
             Debug.Log("Event ERROR!");
+    }
+
+    public bool IsWallGold()
+    {
+        if (gold > wallGold) return true;
+        else return false;
+    }
+    public bool IsTurretGold()
+    {
+        if (gold > turretGold) return true; 
+        else return false;
+    }
+
+    public void WallGoldMinus()
+    {
+        gold -= wallGold;
+        goldText.text = gold.ToString();
+    }
+    public void TurretGoldMinus()
+    {
+        gold -= turretGold;
+        goldText.text = gold.ToString();
+    }
+
+    public void GoldPlus(int getgold)
+    {
+        gold += getgold;
+        goldText.text = gold.ToString();
+    }
+
+    public void EnemyDieCount()
+    {
+        enemyCount++;
     }
 }

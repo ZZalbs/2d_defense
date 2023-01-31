@@ -99,7 +99,7 @@ MonoBehaviour:
   speed: 0
   dir: {x: 0, y: 0, z: 0}
   size: 0
-  dmg: 0
+  dmg: 1
 --- !u!58 &-1712912328690223029
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -45,8 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  attackDelay: 0.3
-  range: 1
+  fireRate: 0.5
+  range: 3
+  lm:
+    serializedVersion: 2
+    m_Bits: 512
+  targetEnemy: {fileID: 0}
 --- !u!212 &2092929280398526037
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -84,7 +88,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 659714751
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7564925639516580852, guid: 933891f03a7cd884d9aa2fb57544a342,
     type: 3}

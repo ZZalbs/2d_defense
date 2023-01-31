@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public int hp;
     private int maxhp;
     public float speed;
+    public int killgold;
     public List<Node> Path;
     [SerializeField] private Vector2[] pos; // 디버그용 타겟위치
     public aStar a;
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
     void OnDisable()
     {
         GameManager.EnemyRetrace -= changePath; // event 해제
+        GameManager.instanceGM.EnemyDieCount();
         //Debug.Log(gameObject.name + "out");
     }
 
@@ -87,8 +89,12 @@ public class Enemy : MonoBehaviour
     {
         hp-=dmg;
         if (hp <= 0)
+        {
             hp = maxhp;
+            GameManager.instanceGM.GoldPlus(killgold);
             this.gameObject.SetActive(false);
+
+        }
     }
 
     public void changePath()
