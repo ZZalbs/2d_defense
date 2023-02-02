@@ -22,12 +22,21 @@ public partial class GameManager : MonoBehaviour
 
     public int gold;
     public Text goldText;
+    int life;
+    public Text lifeText;
+
+    //빌드시간 알려주는 슬라이더
+    public GameObject bar;
+    public Slider buildTimeBar;
+    public float currentTime;
 
     public bool isWaveTime = false; // wavetime이 true일때는 벽 건설 불가.
     public float buildTime = 10.0f; // 나중에 상수로 바꾸기
 
     int[] waveMonster = new int[] {10, 20, 30, 30, 30};
     int waveCount = 0;
+
+    
 
 //private static GameManager _instanceGM;
 public static GameManager instanceGM;
@@ -50,7 +59,12 @@ public static GameManager instanceGM;
         {
             instanceGM = this;
         }
+
+        // 게임 시작 기본설정
         gold = 30;
+        life = 5; 
+        /////
+
         g = GetComponent<GridMake>(); 
         g.gridWorldSize = gridWorldSize;
         a.gridCode = g; // a* algorithm에 값 입력
@@ -67,15 +81,21 @@ public static GameManager instanceGM;
         //EnemyRetrace();
         Invoke("StartNewWave", buildTime);
         goldText.text = gold.ToString();
+        lifeText.text = life.ToString();
     }
 
     private void Update()
     {
+        BuildTimeBar();
         if (enemyCount == waveMonster[waveCount])
         {
             enemyCount = 0;
             isWaveTime = false;
             waveCount++;
+
+            currentTime = 0;
+            //bar.SetActive(true);
+
             Invoke("StartNewWave", buildTime);
         }
     }
@@ -101,6 +121,7 @@ public static GameManager instanceGM;
 
     void StartNewWave()
     {
+        //bar.SetActive(false);
         StartCoroutine(EnemySmake(waveMonster[waveCount]));
     }
 
@@ -165,6 +186,13 @@ public static GameManager instanceGM;
             Debug.Log("Event ERROR!");
     }
 
+    public void BuildTimeBar()
+    {
+        if(!isWaveTime)
+            currentTime += Time.deltaTime;
+        buildTimeBar.value = currentTime/buildTime;
+    }
+
     public bool IsWallGold()
     {
         if (gold > wallGold) return true;
@@ -196,5 +224,19 @@ public static GameManager instanceGM;
     public void EnemyDieCount()
     {
         enemyCount++;
+    }
+
+    public void LifeMinus()
+    {
+        life--;
+        lifeText.text = life.ToString();
+        if (life <= 0) GameOver();
+
+    }
+
+    void GameOver()
+    {
+        Time.timeScale = 0;
+        Debug.Log("Game Over");
     }
 }

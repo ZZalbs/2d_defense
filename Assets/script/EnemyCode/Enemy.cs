@@ -76,6 +76,7 @@ public class Enemy : MonoBehaviour
         gameObject.transform.Translate(moveDir.normalized * Time.deltaTime * speed, Space.World);
         if (Vector3.Distance(gameObject.transform.position, Path[Path.Count - 1].position) < 0.05f)
         {
+            GameManager.instanceGM.LifeMinus();
             curPos = 0;
             targetPos = Path[curPos].position;
             isEnd = state.OnMove;
