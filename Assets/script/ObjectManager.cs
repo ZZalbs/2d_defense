@@ -5,11 +5,13 @@ using UnityEngine;
 public class ObjectManager : MonoBehaviour
 {
     public static ObjectManager instance; // 싱글톤용
-    public enum Obj { enemyS, enemyM, enemyL, turretA, playerBullet }
+    public enum Obj { enemyS, enemyM, enemyL, turretA,turretB, playerBullet,sword }
     public GameObject loading;
 
     public GameObject playerBulletPrefab;
+    public GameObject swordPrefab;
     public GameObject turretAPrefab;
+    public GameObject turretBPrefab;
     public GameObject enemySPrefab;
     public GameObject enemyMPrefab;
     public GameObject enemyLPrefab;
@@ -17,7 +19,9 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private GameObject[] targetPool; // 풀링할 타겟 설정
 
     GameObject[] playerBullet;
+    GameObject[] sword;
     [SerializeField] private GameObject[] turretA;
+    [SerializeField] private GameObject[] turretB;
     [SerializeField] private GameObject[] enemyS;
     GameObject[] enemyM;
     GameObject[] enemyL;
@@ -32,7 +36,9 @@ public class ObjectManager : MonoBehaviour
         }
 
         playerBullet = new GameObject[100];
+        sword = new GameObject[100];
         turretA = new GameObject[100];
+        turretB = new GameObject[100];
         enemyS = new GameObject[50];
         enemyM = new GameObject[50];
         enemyL = new GameObject[50];
@@ -71,10 +77,23 @@ public class ObjectManager : MonoBehaviour
             playerBullet[i].SetActive(false);
         }
 
+        for (int i = 0; i < sword.Length; i++)
+        {
+            sword[i] = Instantiate(swordPrefab);
+            BulletManager.instanceBM.swordCode[i] = sword[i].GetComponent<Sword>();
+            sword[i].SetActive(false);
+        }
+
         for (int i = 0; i < turretA.Length; i++)
         {
             turretA[i] = Instantiate(turretAPrefab);
             turretA[i].SetActive(false);
+        }
+
+        for (int i = 0; i < turretB.Length; i++)
+        {
+            turretB[i] = Instantiate(turretBPrefab);
+            turretB[i].SetActive(false);
         }
 
         Time.timeScale = 1.0f;
@@ -102,8 +121,16 @@ public class ObjectManager : MonoBehaviour
                 targetPool = turretA;
                 // Debug.Log("Turret A Target Pool Set");
                 break;
+            case Obj.turretB:
+                targetPool = turretB;
+                // Debug.Log("Turret A Target Pool Set");
+                break;
             case Obj.playerBullet:
                 targetPool = playerBullet;
+                // Debug.Log("playerBullet Target Pool Set");
+                break;
+            case Obj.sword:
+                targetPool = sword;
                 // Debug.Log("playerBullet Target Pool Set");
                 break;
         }

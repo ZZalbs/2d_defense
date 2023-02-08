@@ -12,8 +12,8 @@ public class aStar : MonoBehaviour // 최단경로 탐색 알고리즘
 
     public void FindPath(Node startNode,Node finalNode) // 경로 탐색
     {
-        List<Node> openSet = new List<Node>();
-        List<Node> closedSet = new List<Node>();
+        List<Node> openSet = new List<Node>(); //찾는중인 리스트
+        List<Node> closedSet = new List<Node>(); // 이미 찾은 리스트
         openSet.Add(startNode);
         
         while (openSet.Count > 0)

@@ -10,7 +10,7 @@ public class GridMake : MonoBehaviour
     public Vector2 gridWorldSize; // 전체 크기 
     public Tilemap tilemap;
 
-    Vector3 tilePos = new Vector3(0, 1.125f, 0);
+    Vector3 tilePos = new Vector3(0,3,0);
     public Vector3 bottomLeft;
     public Vector3 topRight;
 
@@ -23,41 +23,31 @@ public class GridMake : MonoBehaviour
     public GameObject groundPrefab; // 바닥 오브젝트 
     GameObject parentGrid; // 복사된 바닥의 부모 지정
 
+    void OnDrawGizmosSelected()
+    {
+        for (int i = 0; i < gridWorldSize.x; i++)
+        {
+            for (int j = 0; j < gridWorldSize.y; j++)
+            {
+                Gizmos.color = Color.white;
+                if(gridArray[i,j].isTurret)
+                    Gizmos.DrawSphere(gridArray[i, j].position, 0.1f);
+            }
+        }
+    }
 
-
-   void Awake()
+    void Awake()
     {
         cam = GetComponent<Camera>();
-        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, 0.25f, 0);
+        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, -1f, 0);
         //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
         //cube.transform.position = bottomLeft;
         
-        topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0.75f,0);
+        //topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0.75f,0);
         //GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
         //cube2.transform.position = topRight;
     }
 
-
-    public void CreateGrid()       // 맨땅에 오브젝트 덩어리로 타일 만들고, 하나로 합치기 ( 짭타일맵 )
-    {
-        if (parentGrid != null)
-            Destroy(parentGrid);
-        parentGrid = new GameObject("parentGrid");
-
-        gridArray = new Node[(int)gridWorldSize.x, (int)gridWorldSize.y];
-
-        for (int x = 0; x < gridWorldSize.x; x++)
-        {
-            for (int y = 0; y < gridWorldSize.y; y++)
-            {
-                Vector2 startPos = Vector2.zero - new Vector2(gridWorldSize.x / 2.0f, gridWorldSize.y / 2.0f);
-                Vector2 nodePos = startPos + new Vector2(x + 0.5f, y + 0.5f);
-                gridArray[x, y] = new Node(true,x,y,nodePos);
-                GameObject obj = Instantiate(groundPrefab, startPos + new Vector2(x + 0.5f, y + 0.5f), Quaternion.Euler(0, 0, 0));
-                obj.transform.parent = parentGrid.transform;
-            }
-        }
-    }
 
     public void getGridFromTile(Vector3 scale) // 생성된 그리드에서 타일 받아오기
     {
@@ -68,15 +58,12 @@ public class GridMake : MonoBehaviour
             for (int j = 0; j < gridWorldSize.y; j++)
             {
                 bool walkable = true;
-
                 Vector2 posVector = new Vector2((i * tileSize * scale.x) + bottomLeft.x, (j * tileSize * scale.y) + bottomLeft.y);
                 foreach (Collider2D col in Physics2D.OverlapCircleAll(posVector, 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
                 {
                     if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; }
                 }
-                gridArray[i, j] = new Node(walkable, i,j, posVector);
-
-                //Debug.Log(i + ", " + j + ", " + gridArray[i, j].gridX + ", " + gridArray[i, j].gridY + "," + gridArray[i, j].position);
+                gridArray[i, j] = new Node(walkable,false, i,j, posVector);
             }
         }
     }
@@ -93,6 +80,11 @@ public class GridMake : MonoBehaviour
         gridArray[i, j].walkable = true;
     }
 
+    public void TileTurret(int i, int j)
+    {
+        gridArray[i, j].isTurret = true;
+    }
+
     public Vector3 GetTilePos(int i,int j)
     {
         return gridArray[i, j].position;
@@ -103,6 +95,10 @@ public class GridMake : MonoBehaviour
         return gridArray[i, j].walkable;
     }
 
+    public bool GetTileTurret(int i, int j)
+    {
+        return gridArray[i, j].isTurret;
+    }
 
     public List<Node> GetNeighbours(Node node)
     {

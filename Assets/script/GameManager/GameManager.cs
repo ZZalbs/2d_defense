@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public partial class GameManager : MonoBehaviour
 {
     public int wallGold; // 나중에 상수로 바꾸기
-    public int turretGold;
-
+    public int[] turretGold;
+    public enum Turret { turretA,turretB }
     GridMake g;
     public aStar a;
     public GameObject grid;
@@ -23,7 +23,7 @@ public partial class GameManager : MonoBehaviour
     public int gold;
     public Text goldText;
     int life;
-    public Text lifeText;
+    public GameObject[] lifeUI;
 
     //빌드시간 알려주는 슬라이더
     public GameObject bar;
@@ -31,15 +31,16 @@ public partial class GameManager : MonoBehaviour
     public float currentTime;
 
     public bool isWaveTime = false; // wavetime이 true일때는 벽 건설 불가.
-    public float buildTime = 10.0f; // 나중에 상수로 바꾸기
+    public float buildTime; // 나중에 상수로 바꾸기
 
-    int[] waveMonster = new int[] {10, 20, 30, 30, 30};
+    int[] waveHP = new int[] { 5, 10, 20, 30, 30 };
+    int[] waveMonster = new int[] { 10, 20, 30, 30, 30 };
     int waveCount = 0;
 
-    
 
-//private static GameManager _instanceGM;
-public static GameManager instanceGM;
+
+    //private static GameManager _instanceGM;
+    public static GameManager instanceGM;
     //{
     //    get
     //    {
@@ -51,8 +52,9 @@ public static GameManager instanceGM;
     //    }
     //}
 
-    public bool isSetWall=false;
+    public bool isSetWall = false;
     public bool isSetTurret = false;
+    public bool isSetTurretB = false;
     void Awake()
     {
         if (instanceGM != this)
@@ -62,10 +64,10 @@ public static GameManager instanceGM;
 
         // 게임 시작 기본설정
         gold = 30;
-        life = 5; 
+        life = 5;
         /////
 
-        g = GetComponent<GridMake>(); 
+        g = GetComponent<GridMake>();
         g.gridWorldSize = gridWorldSize;
         a.gridCode = g; // a* algorithm에 값 입력
     }
@@ -81,7 +83,6 @@ public static GameManager instanceGM;
         //EnemyRetrace();
         Invoke("StartNewWave", buildTime);
         goldText.text = gold.ToString();
-        lifeText.text = life.ToString();
     }
 
     private void Update()
@@ -104,19 +105,20 @@ public static GameManager instanceGM;
     {
         enemyCount = 0;
         isWaveTime = true;
-        for (int i=0;i<num; i++)
+        for (int i = 0; i < num; i++)
         {
             GameObject enemy = ObjectManager.instance.MakeObj(ObjectManager.Obj.enemyS);
             if (enemy != null)
             {
                 enemy.transform.position = g.gridArray[0, 0].position;
                 Enemy code = enemy.GetComponent<Enemy>();
+                code.hp = waveHP[waveCount];
                 code.Path = defaultPath;
                 code.a = a;
-            }            
+            }
             yield return new WaitForSeconds(1.0f);
         }
-        
+
     }
 
     void StartNewWave()
@@ -138,7 +140,7 @@ public static GameManager instanceGM;
         return defaultPath;
     }
 
-    public void tileFalse(int i,int j)
+    public void tileFalse(int i, int j)
     {
         g.TileFalse(i, j);
 
@@ -147,7 +149,13 @@ public static GameManager instanceGM;
         MakeDefaultPath();
     }
 
-    public Vector3 getTilePos(int i,int j)
+    public void TileTurret(int i, int j) // 터렛 지은거 자료구조에 반영
+    {
+        g.TileTurret(i, j);
+    }
+
+
+    public Vector3 getTilePos(int i, int j)
     {
         return g.GetTilePos(i, j);
     }
@@ -157,10 +165,19 @@ public static GameManager instanceGM;
         return g.GetTileTrue(i, j);
     }
 
+    public bool GetTileTurret(int i,int j)
+    {
+        return g.GetTileTurret(i, j);
+    }
+
+
     public void SetWall()
     {
-        if (isSetTurret)
+        if (isSetTurret || isSetTurretB)
+        {
             isSetTurret = false;
+            isSetTurretB = false;
+        }
         if (isSetWall)
             isSetWall = false;
         else
@@ -169,13 +186,28 @@ public static GameManager instanceGM;
 
     public void SetTurret()
     {
-        if (isSetWall)
+        if (isSetWall || isSetTurretB)
+        {
             isSetWall = false;
-
+            isSetTurretB = false;
+        }
         if (isSetTurret)
             isSetTurret = false;
         else
             isSetTurret = true;
+    }
+
+    public void SetTurretB()
+    {
+        if (isSetWall || isSetTurret)
+        {
+            isSetWall = false;
+            isSetTurret = false;
+        }
+        if (isSetTurretB)
+            isSetTurretB = false;
+        else
+            isSetTurretB = true;
     }
 
     public void enemyReset()
@@ -188,19 +220,19 @@ public static GameManager instanceGM;
 
     public void BuildTimeBar()
     {
-        if(!isWaveTime)
+        if (!isWaveTime)
             currentTime += Time.deltaTime;
-        buildTimeBar.value = currentTime/buildTime;
+        buildTimeBar.value = currentTime / buildTime;
     }
 
     public bool IsWallGold()
     {
-        if (gold > wallGold) return true;
+        if (gold >= wallGold) return true;
         else return false;
     }
-    public bool IsTurretGold()
+    public bool IsTurretGold(Turret i)
     {
-        if (gold > turretGold) return true; 
+        if (gold >= turretGold[(int)i]) return true;
         else return false;
     }
 
@@ -209,9 +241,9 @@ public static GameManager instanceGM;
         gold -= wallGold;
         goldText.text = gold.ToString();
     }
-    public void TurretGoldMinus()
+    public void TurretGoldMinus(Turret i)
     {
-        gold -= turretGold;
+        gold -= turretGold[(int)i];
         goldText.text = gold.ToString();
     }
 
@@ -229,10 +261,11 @@ public static GameManager instanceGM;
     public void LifeMinus()
     {
         life--;
-        lifeText.text = life.ToString();
+        lifeUI[life].SetActive(false);
         if (life <= 0) GameOver();
 
     }
+
 
     void GameOver()
     {

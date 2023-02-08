@@ -6,12 +6,19 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     public Vector3 dir = Vector3.zero;
+    public float angle;
     public float size;
     public int dmg;
 
+    void OnEnable()
+    {
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, angle);
+        
+        
+    }
     private void Update()
     {
-        gameObject.transform.Translate(dir*speed);
+        gameObject.transform.Translate(dir*speed*Time.deltaTime,Space.World);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

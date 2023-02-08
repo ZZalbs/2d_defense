@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]int curPos=0;
     Vector3 targetPos;
 
+    Animator anim;
+
     enum state {OnMove,OnEnd};
     state isEnd;
 
@@ -23,6 +25,7 @@ public class Enemy : MonoBehaviour
         pos = new Vector2[Path.Count];
         maxhp = hp;
         isEnd = state.OnMove;
+        anim = GetComponent<Animator>();
     }
 
     void OnEnable()
@@ -89,6 +92,7 @@ public class Enemy : MonoBehaviour
     public void Onhit(int dmg) // 데미지를 입는 경우
     {
         hp-=dmg;
+        anim.SetTrigger("OnHit");
         if (hp <= 0)
         {
             hp = maxhp;

@@ -31,20 +31,36 @@ public class TileFunc : MonoBehaviour
         }
 
         // 터렛 설치
-        else if (GameManager.instanceGM.isSetTurret && !GameManager.instanceGM.getTileTrue((int)newPosition.x, (int)newPosition.y) && GameManager.instanceGM.IsTurretGold())
+        else if (GameManager.instanceGM.isSetTurret && !GameManager.instanceGM.getTileTrue((int)newPosition.x, (int)newPosition.y) && GameManager.instanceGM.IsTurretGold(GameManager.Turret.turretA) && !GameManager.instanceGM.GetTileTurret((int)newPosition.x, (int)newPosition.y))
         {
             GameObject turretA = ObjectManager.instance.MakeObj(ObjectManager.Obj.turretA); 
-            Debug.Log("*****" + turretA.name + "*****");
+            //Debug.Log("*****" + turretA.name + "*****");
             if (turretA != null)
             {
                 turretA.transform.position = GameManager.instanceGM.getTilePos((int)newPosition.x, (int)newPosition.y);
-                GameManager.instanceGM.TurretGoldMinus();
+                GameManager.instanceGM.TurretGoldMinus(GameManager.Turret.turretA);
+                GameManager.instanceGM.TileTurret((int)newPosition.x, (int)newPosition.y);
                 TurretA code = turretA.GetComponent<TurretA>();
+            }
+        }
+
+        else if (GameManager.instanceGM.isSetTurretB && !GameManager.instanceGM.getTileTrue((int)newPosition.x, (int)newPosition.y) && GameManager.instanceGM.IsTurretGold(GameManager.Turret.turretB) && !GameManager.instanceGM.GetTileTurret((int)newPosition.x, (int)newPosition.y))
+        {
+            GameObject turretB = ObjectManager.instance.MakeObj(ObjectManager.Obj.turretB);
+            //Debug.Log("*****" + turretB.name + "*****");
+            if (turretB != null)
+            {
+                turretB.transform.position = GameManager.instanceGM.getTilePos((int)newPosition.x, (int)newPosition.y);
+                GameManager.instanceGM.TurretGoldMinus(GameManager.Turret.turretB);
+                GameManager.instanceGM.TileTurret((int)newPosition.x, (int)newPosition.y);
+                TurretB code = turretB.GetComponent<TurretB>();
+                code.swordCount = 2;
+                code.ChangeSwordNum();
             }
         }
 
 
 
-        
+
     }
 }
