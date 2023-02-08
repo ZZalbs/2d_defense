@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5296508269085674454}
   - component: {fileID: 1865402421425864542}
   - component: {fileID: 8465345727714626556}
-  - component: {fileID: -1712912328690223029}
   - component: {fileID: -6994922945187162405}
+  - component: {fileID: 1167311054305206057}
   m_Layer: 0
   m_Name: BulletImsi
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8336247559599362590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.4824305, y: -7.0129995, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,10 +70,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 659714751
-  m_SortingLayer: 2
+  m_SortingLayerID: 871317751
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c7751e43ec9b50745985372bf2b0177b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c5a8c992b14b14549add88d7c40ef290, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,24 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   dir: {x: 0, y: 0, z: 0}
+  angle: 0
   size: 0
   dmg: 1
---- !u!58 &-1712912328690223029
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8336247559599362590}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
 --- !u!50 &-6994922945187162405
 Rigidbody2D:
   serializedVersion: 4
@@ -137,3 +122,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &1167311054305206057
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8336247559599362590}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.031118393}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.2509594, y: 0.4377632}
+  m_EdgeRadius: 0
