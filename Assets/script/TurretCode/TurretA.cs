@@ -63,7 +63,7 @@ public class TurretA : TurretInterface
     {
         
             Vector3 dir = (enemy.position - gameObject.transform.position).normalized;
-            BulletManager.instanceBM.BulletLinearShoot(gameObject.transform.position, dir, 50);
+            BulletManager.instanceBM.BulletLinearShoot(gameObject.transform.position, dir, 30);
             Debug.Log("attack to " + enemy.position);
         
     }

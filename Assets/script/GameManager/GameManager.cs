@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public partial class GameManager : MonoBehaviour
 {
     public int wallGold; // 나중에 상수로 바꾸기
     public int[] turretGold;
+
+    enum back {wall,turA,turB};
+    public GameObject[] backgrounds;
     public enum Turret { turretA,turretB }
     GridMake g;
     public aStar a;
@@ -25,6 +29,7 @@ public partial class GameManager : MonoBehaviour
     int life;
     public GameObject[] lifeUI;
 
+
     //빌드시간 알려주는 슬라이더
     public GameObject bar;
     public Slider buildTimeBar;
@@ -33,11 +38,15 @@ public partial class GameManager : MonoBehaviour
     public bool isWaveTime = false; // wavetime이 true일때는 벽 건설 불가.
     public float buildTime; // 나중에 상수로 바꾸기
 
-    int[] waveHP = new int[] { 5, 10, 20, 30, 30 };
+    int[] waveHP = new int[] { 5, 10, 20, 30, 50 };
     int[] waveMonster = new int[] { 10, 20, 30, 30, 30 };
     int waveCount = 0;
-
-
+    enum gameState { clear,over};
+    public GameObject EndingUI;
+    public GameObject EndingTile;
+    public Text EndingText;
+    float timecount;
+    public GameObject skipButton;
 
     //private static GameManager _instanceGM;
     public static GameManager instanceGM;
@@ -81,23 +90,26 @@ public partial class GameManager : MonoBehaviour
 
         defaultPath = a.RetracePath(g.gridArray[0, 0], g.gridArray[(int)gridWorldSize.x - 1, (int)gridWorldSize.y - 1]); // Path Node 정보 반환
         //EnemyRetrace();
-        Invoke("StartNewWave", buildTime);
+        StartCoroutine("StartNewWave");
         goldText.text = gold.ToString();
+        EndingTile.SetActive(false);
+        EndingUI.SetActive(false);
     }
 
     private void Update()
     {
-        BuildTimeBar();
+        
         if (enemyCount == waveMonster[waveCount])
         {
             enemyCount = 0;
             isWaveTime = false;
             waveCount++;
-
+            if (waveCount >= waveMonster.Length)
+                GameEnd(gameState.clear);
             currentTime = 0;
             //bar.SetActive(true);
 
-            Invoke("StartNewWave", buildTime);
+            StartCoroutine("StartNewWave");
         }
     }
 
@@ -105,6 +117,7 @@ public partial class GameManager : MonoBehaviour
     {
         enemyCount = 0;
         isWaveTime = true;
+        skipButton.SetActive(false);
         for (int i = 0; i < num; i++)
         {
             GameObject enemy = ObjectManager.instance.MakeObj(ObjectManager.Obj.enemyS);
@@ -121,9 +134,16 @@ public partial class GameManager : MonoBehaviour
 
     }
 
-    void StartNewWave()
+    IEnumerator StartNewWave()
     {
-        //bar.SetActive(false);
+        timecount=0;
+        skipButton.SetActive(true);
+        while(timecount<=buildTime)
+        {
+            BuildTimeBar(timecount);
+            timecount += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
         StartCoroutine(EnemySmake(waveMonster[waveCount]));
     }
 
@@ -180,8 +200,9 @@ public partial class GameManager : MonoBehaviour
         }
         if (isSetWall)
             isSetWall = false;
-        else
+        else { 
             isSetWall = true;
+        }
     }
 
     public void SetTurret()
@@ -194,7 +215,9 @@ public partial class GameManager : MonoBehaviour
         if (isSetTurret)
             isSetTurret = false;
         else
+        {
             isSetTurret = true;
+        }
     }
 
     public void SetTurretB()
@@ -207,7 +230,9 @@ public partial class GameManager : MonoBehaviour
         if (isSetTurretB)
             isSetTurretB = false;
         else
+        {
             isSetTurretB = true;
+        }
     }
 
     public void enemyReset()
@@ -218,11 +243,17 @@ public partial class GameManager : MonoBehaviour
             Debug.Log("Event ERROR!");
     }
 
-    public void BuildTimeBar()
+    public void BuildTimeBar(float timeCount)
     {
         if (!isWaveTime)
-            currentTime += Time.deltaTime;
+            currentTime = timeCount;
         buildTimeBar.value = currentTime / buildTime;
+    }
+
+    public void Skip()
+    {
+        buildTimeBar.value = 1;
+        timecount += 100;
     }
 
     public bool IsWallGold()
@@ -262,14 +293,46 @@ public partial class GameManager : MonoBehaviour
     {
         life--;
         lifeUI[life].SetActive(false);
-        if (life <= 0) GameOver();
+        if (life <= 0) GameEnd(gameState.over);
 
     }
 
+    //public void resetBackColor()
+    //{
+    //    for(int i=0;i<3;i++)
+    //    {
+    //        SpriteRenderer s = backgrounds[i].GetComponent<SpriteRenderer>();
+    //        s.color = new Color(180, 143, 100);
+    //    }
+    //}
 
-    void GameOver()
+    //public void ChangeBackColor(GameObject g)
+    //{
+    //    SpriteRenderer s = g.GetComponent<SpriteRenderer>();
+    //    s.color = new Color(123, 99, 71);
+    //}
+
+    void GameEnd(gameState g)
     {
+        EndingTile.SetActive(true);
+        if(g==gameState.clear)
+        {
+            EndingText.text = "Congratulations!";
+        }
+        else if (g == gameState.over)
+        {
+            EndingText.text = "Game Over! \n you failed in" + waveCount + " wave";
+        }
+        EndingUI.SetActive(true);
         Time.timeScale = 0;
-        Debug.Log("Game Over");
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
