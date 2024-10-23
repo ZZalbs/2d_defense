@@ -5,12 +5,13 @@ using UnityEngine.Tilemaps;
 
 public class GridMake : MonoBehaviour
 {
-    const float tileSize = 1.0f;
+    
 
     public Vector2 gridWorldSize; // 전체 크기 
-    public Tilemap tilemap;
+    public Tilemap tilemap; // uptilemap
+    float tileSize;
 
-    Vector3 tilePos = new Vector3(0,3,0);
+    Vector3 tilePos;
     public Vector3 bottomLeft;
     public Vector3 topRight;
 
@@ -30,22 +31,33 @@ public class GridMake : MonoBehaviour
             for (int j = 0; j < gridWorldSize.y; j++)
             {
                 Gizmos.color = Color.white;
-                if(gridArray[i,j].isTurret)
-                    Gizmos.DrawSphere(gridArray[i, j].position, 0.1f);
+                if (!gridArray[i, j].walkable)
+                    Gizmos.color = Color.blue;
+                if (gridArray[i, j].isTurret)
+                    Gizmos.color = Color.red;
+                Gizmos.DrawSphere(gridArray[i, j].position, 0.1f);
+                
             }
         }
     }
 
     void Awake()
     {
+
+        tilePos = tilemap.transform.position;
+        tileSize = tilemap.transform.localScale.x;
+        Debug.Log(tilePos);
         cam = GetComponent<Camera>();
-        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + new Vector3(0.5f, -1f, 0);
-        //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
-        //cube.transform.position = bottomLeft;
+        bottomLeft = tilePos - tilemap.CellToWorld(tilemap.size / 2) + tilemap.transform.localScale/2; // 가장 끝 모서리가 아닌, 가장 끝 타일을 가져와야 하기 때문에 보정값(반타일)만큼 더해줌
+        topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - tilemap.transform.localScale / 2;
+        /*
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        cube.transform.position = bottomLeft;
+
         
-        //topRight = tilePos + tilemap.CellToWorld(tilemap.size / 2) - new Vector3(0.5f,0.75f,0);
-        //GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
-        //cube2.transform.position = topRight;
+        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);    //큐브 오브젝트 생성
+        cube2.transform.position = topRight;
+    */
     }
 
 
@@ -58,10 +70,10 @@ public class GridMake : MonoBehaviour
             for (int j = 0; j < gridWorldSize.y; j++)
             {
                 bool walkable = true;
-                Vector2 posVector = new Vector2((i * tileSize * scale.x) + bottomLeft.x, (j * tileSize * scale.y) + bottomLeft.y);
+                Vector2 posVector = new Vector2((i * scale.x) + bottomLeft.x, (j * scale.y) + bottomLeft.y);
                 foreach (Collider2D col in Physics2D.OverlapCircleAll(posVector, 0.2f)) // 조그만 원을 움직이면서, 겹치는 타일 하나씩 찾음
                 {
-                    if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; }
+                    if (col.gameObject.layer == LayerMask.NameToLayer("platform")) { walkable = true; Debug.Log(i + "," + j); }
                 }
                 gridArray[i, j] = new Node(walkable,false, i,j, posVector);
             }

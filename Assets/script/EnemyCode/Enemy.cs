@@ -19,6 +19,16 @@ public class Enemy : MonoBehaviour
     enum state {OnMove,OnEnd};
     state isEnd;
 
+
+    void OnDrawGizmosSelected()
+    {
+        for (int i = 0; i < Path.Count; i++)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(Path[i].position, 0.1f);
+        }
+    }
+
     void Start()
     {
         targetPos = Path[curPos].position; 

@@ -321,7 +321,7 @@ public partial class GameManager : MonoBehaviour
         }
         else if (g == gameState.over)
         {
-            EndingText.text = "Game Over! \n you failed in" + waveCount + " wave";
+            EndingText.text = "Game Over! \n you failed in\n" + waveCount + " wave";
         }
         EndingUI.SetActive(true);
         Time.timeScale = 0;
